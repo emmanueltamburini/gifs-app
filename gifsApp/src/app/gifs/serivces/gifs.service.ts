@@ -38,7 +38,7 @@ export class GifsService {
     this.http.get<GifsInterface>(`https://api.giphy.com/v1/gifs/search?api_key=3dbTtGps19hAG0pE4znv6a2FGJPI6klI&q=${query}&limit=10`)
       .subscribe((response: GifsInterface) => {
         console.log(response);
-        this.results = response.data;
+        this._results = response.data;
       });
   }
 
