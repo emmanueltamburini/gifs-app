@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MAX_RECORD_NUMBER } from '../constant/constant';
+import { Gif, GifsInterface } from '../interfaces/gifs.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,16 @@ export class GifsService {
 
   private _record: string[] = [];
 
-  public results: any[] = [];
+  private _results: Gif[] = [];
 
   private apikey: string = '3dbTtGps19hAG0pE4znv6a2FGJPI6klI';
 
   get record (): string[] {
     return [...this._record];
+  }
+
+  get results (): Gif[] {
+    return [...this._results];
   }
 
   constructor (private http: HttpClient) {}
@@ -29,10 +34,10 @@ export class GifsService {
     console.log(this._record);
   }
 
-  private searchApi(query: string) {
-    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=3dbTtGps19hAG0pE4znv6a2FGJPI6klI&q=${query}&limit=10`)
-      .subscribe((response: any) => {
-        console.log(response.data);
+  private searchApi(query: string): void{
+    this.http.get<GifsInterface>(`https://api.giphy.com/v1/gifs/search?api_key=3dbTtGps19hAG0pE4znv6a2FGJPI6klI&q=${query}&limit=10`)
+      .subscribe((response: GifsInterface) => {
+        console.log(response);
         this.results = response.data;
       });
   }
