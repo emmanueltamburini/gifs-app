@@ -22,7 +22,9 @@ export class GifsService {
     return [...this._results];
   }
 
-  constructor (private http: HttpClient) {}
+  constructor (private http: HttpClient) {
+    this.loadLocalStorage();
+  }
 
   public searchGifs(query: string) {
     if (this.validateQuery(query)) return;
@@ -31,7 +33,20 @@ export class GifsService {
 
     this.searchApi(query);
 
+    this.saveLocalStorage();
+
     console.log(this._record);
+  }
+
+  private loadLocalStorage(): void {
+    const localStorageRecord: string| null = localStorage.getItem('record');
+    if (localStorageRecord) {
+      this._record = JSON.parse(localStorageRecord);
+    }
+  }
+
+  private saveLocalStorage(): void {
+    localStorage.setItem('record', JSON.stringify(this._record));
   }
 
   private searchApi(query: string): void{
