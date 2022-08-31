@@ -33,20 +33,30 @@ export class GifsService {
 
     this.searchApi(query);
 
-    this.saveLocalStorage();
+    this.saveLocalRecordStorage();
 
     console.log(this._record);
   }
 
   private loadLocalStorage(): void {
-    const localStorageRecord: string| null = localStorage.getItem('record');
+    const localStorageRecord: string | null = localStorage.getItem('record');
+    const localStorageResults: string | null = localStorage.getItem('results');
+
     if (localStorageRecord) {
       this._record = JSON.parse(localStorageRecord);
     }
+
+    if (localStorageResults) {
+      this._results = JSON.parse(localStorageResults);
+    }
   }
 
-  private saveLocalStorage(): void {
+  private saveLocalRecordStorage(): void {
     localStorage.setItem('record', JSON.stringify(this._record));
+  }
+
+  private saveLocalResultsStorage(): void {
+    localStorage.setItem('results', JSON.stringify(this._results));
   }
 
   private searchApi(query: string): void{
@@ -54,6 +64,7 @@ export class GifsService {
       .subscribe((response: GifsInterface) => {
         console.log(response);
         this._results = response.data;
+        this.saveLocalResultsStorage();
       });
   }
 
