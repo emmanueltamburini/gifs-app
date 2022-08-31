@@ -12,4 +12,8 @@ export class SiderbarComponent {
   get record (): string[] {
     return this.gifsService.record;
   }
+
+  public search(item: string) {
+    this.gifsService.searchGifs(item);
+  }
 }
