@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MAX_RECORD_NUMBER } from '../constant/constant';
+import { MAX_RECORD_NUMBER, LIMIT_PARAMETER, API_KEY, LIMIT, Q, RESULTS, RECORD } from '../constant/constant';
 import { Gif, GifsInterface } from '../interfaces/gifs.interface';
 
 @Injectable({
@@ -12,7 +12,9 @@ export class GifsService {
 
   private _results: Gif[] = [];
 
-  private apikey: string = '3dbTtGps19hAG0pE4znv6a2FGJPI6klI';
+  private _apikey: string = '3dbTtGps19hAG0pE4znv6a2FGJPI6klI';
+
+  private _urlService = 'https://api.giphy.com/v1/gifs';
 
   get record (): string[] {
     return [...this._record];
@@ -34,13 +36,11 @@ export class GifsService {
     this.searchApi(query);
 
     this.saveLocalRecordStorage();
-
-    console.log(this._record);
   }
 
   private loadLocalStorage(): void {
-    const localStorageRecord: string | null = localStorage.getItem('record');
-    const localStorageResults: string | null = localStorage.getItem('results');
+    const localStorageRecord: string | null = localStorage.getItem(RECORD);
+    const localStorageResults: string | null = localStorage.getItem(RESULTS);
 
     if (localStorageRecord) {
       this._record = JSON.parse(localStorageRecord);
@@ -52,17 +52,21 @@ export class GifsService {
   }
 
   private saveLocalRecordStorage(): void {
-    localStorage.setItem('record', JSON.stringify(this._record));
+    localStorage.setItem(RECORD, JSON.stringify(this._record));
   }
 
   private saveLocalResultsStorage(): void {
-    localStorage.setItem('results', JSON.stringify(this._results));
+    localStorage.setItem(RESULTS, JSON.stringify(this._results));
   }
 
   private searchApi(query: string): void{
-    this.http.get<GifsInterface>(`https://api.giphy.com/v1/gifs/search?api_key=3dbTtGps19hAG0pE4znv6a2FGJPI6klI&q=${query}&limit=10`)
+    const params = new HttpParams()
+      .set(API_KEY, this._apikey)
+      .set(LIMIT, LIMIT_PARAMETER)
+      .set(Q, query)
+
+    this.http.get<GifsInterface>(`${this._urlService}/search`, { params })
       .subscribe((response: GifsInterface) => {
-        console.log(response);
         this._results = response.data;
         this.saveLocalResultsStorage();
       });
