@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MAX_RECORD_NUMBER, LIMIT_PARAMETER, API_KEY, LIMIT, Q, RESULTS, RECORD } from '../constant/constant';
 import { Gif, GifsInterface } from '../interfaces/gifs.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class GifsService {
 
   private _results: Gif[] = [];
 
-  private _apikey: string = '3dbTtGps19hAG0pE4znv6a2FGJPI6klI';
+  private _apikey: string = environment.apikey;
 
   private _urlService = 'https://api.giphy.com/v1/gifs';
 
