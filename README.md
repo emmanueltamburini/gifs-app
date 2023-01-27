@@ -2,7 +2,11 @@
 
 ## GifsApp README
 
-This app is an example about angular framework, Its functionality is to simulate a gif search engine with search history and using the third-party api of [giphy](https://developers.giphy.com/). You should create a account in this page and request a apikey, this apikey should be put in the environment files (src/environment/environment.ts and src/environment/environment.prod.ts).
+This app is an example about angular framework, Its functionality is to simulate a gif search engine with search history and using the third-party api of [giphy](https://developers.giphy.com/).
+
+You can check final result [here](https://cosmic-pika-bb0be8.netlify.app/) (if you have a problem with url please notice to emmanueltamburini@gmail.com)
+
+You should create a account in this page and request a apikey, this apikey should be put in the environment files (src/environment/environment.ts and src/environment/environment.prod.ts).
 
 ### Getting started
 
